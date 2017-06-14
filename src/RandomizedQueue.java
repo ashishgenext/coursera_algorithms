@@ -52,30 +52,90 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue()                    // remove and return a random item
     {
         if (head == null) throw new java.util.NoSuchElementException("empty queue");
-        Item item ;
+        Item item = null ;
         if(size() == 1){
             item = head.item;
             head = null;
             tail = null ;
             return item ;
         }
-        Node current = head ;
+        Node current = null ;
         int random = StdRandom.uniform(1,size());
-        while (random > 1){
-            current = current.next ;
-            random -- ;
+        if(random ==1){
+            item = head.item ;
+            head = head.next ;
+
+        }else if(random == 2) {
+            item = head.next.item;
+            if(size() == 2){
+                tail = head ;
+                head.next = null;
+            }else {
+                head.next = head.next.next;
+            }
+        } else {
+            while (random > 2) {
+                current = current.next;
+                random--;
+            }
+            item = current.next.item;
+            current.next = current.next.next;
         }
-
-        item = current.next.item ;
-        current.next = current.next.next ;
-
 
         return item;
     }
 
     public Item sample()                     // return (but do not remove) a random item
     {
-        return null;
+        if (head == null) throw new java.util.NoSuchElementException("empty queue");
+        int random = StdRandom.uniform(1,size());
+        Item item = null ;
+        if(random == 1) return head.item ;
+        Node current = head ;
+        while(random > 1){
+            current = current.next ;
+            random-- ;
+        }
+        item = current.item;
+        return item;
+    }
+
+    private class MyIterator implements Iterator<Item> {
+        private Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            if (current != null) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public Item next() {
+            if (current == null) throw new java.util.NoSuchElementException("no element");
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+
+        @Override
+        public void remove() {
+            if (current == null) throw new java.lang.UnsupportedOperationException("blank queue");
+            if (head.next == null) {
+                head = null;
+                tail = null;
+                current = null;
+            } else {
+                Node temp = head;
+                while (temp.next != current) {
+                    temp = temp.next;
+                }
+                temp.next = current.next;
+                current = temp.next;
+                temp = null;
+            }
+        }
     }
 
     public static void main(String[] args)   // unit testing (optional)
@@ -85,7 +145,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     @Override
     public Iterator<Item> iterator() {
-        return null;
+        return new MyIterator();
     }
 
     private class Node {
