@@ -1,3 +1,5 @@
+package stact_and_queues_week_2;
+
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -7,7 +9,6 @@ import java.util.Iterator;
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Node head, tail;
-    private RandomizedQueue<Item> queue;
 
     public RandomizedQueue()                 // construct an empty randomized queue
     {
@@ -52,28 +53,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue()                    // remove and return a random item
     {
         if (head == null) throw new java.util.NoSuchElementException("empty queue");
-        Item item = null ;
-        if(size() == 1){
+        Item item = null;
+        if (size() == 1) {
             item = head.item;
             head = null;
-            tail = null ;
-            return item ;
+            tail = null;
+            return item;
         }
-        Node current = null ;
-        int random = StdRandom.uniform(1,size());
-        if(random ==1){
-            item = head.item ;
-            head = head.next ;
+        Node current = null;
+        int random = StdRandom.uniform(1, size());
+        if (random == 1) {
+            item = head.item;
+            head = head.next;
 
-        }else if(random == 2) {
+        } else if (random == 2) {
             item = head.next.item;
-            if(size() == 2){
-                tail = head ;
+            if (size() == 2) {
+                tail = head;
                 head.next = null;
-            }else {
+            } else {
                 head.next = head.next.next;
             }
         } else {
+            current = head;
             while (random > 2) {
                 current = current.next;
                 random--;
@@ -88,13 +90,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item sample()                     // return (but do not remove) a random item
     {
         if (head == null) throw new java.util.NoSuchElementException("empty queue");
-        int random = StdRandom.uniform(1,size());
-        Item item = null ;
-        if(random == 1) return head.item ;
-        Node current = head ;
-        while(random > 1){
-            current = current.next ;
-            random-- ;
+        int random = StdRandom.uniform(1, size());
+        Item item = null;
+        if (random == 1) return head.item;
+        Node current = head;
+        while (random > 1) {
+            current = current.next;
+            random--;
         }
         item = current.item;
         return item;
@@ -133,7 +135,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 }
                 temp.next = current.next;
                 current = temp.next;
-                temp = null;
             }
         }
     }
@@ -149,8 +150,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class Node {
-        Item item;
-        Node next;
+        private Item item;
+        private Node next;
 
         Node(Item item) {
             this.item = item;

@@ -1,11 +1,13 @@
+package stact_and_queues_week_2;
+
 import java.util.Iterator;
+
 /**
  * Created by Ashish on 11-06-2017.
  */
-public class Deque <Item>  implements Iterable<Item>  {
+public class Deque<Item> implements Iterable<Item> {
 
     private Node head, tail;
-    private Deque<Item> queue;
 
     public Deque()                           // construct an empty deque
     {
@@ -76,11 +78,7 @@ public class Deque <Item>  implements Iterable<Item>  {
             temp.next = null;
         }
 
-        Item item = null;
-        if (temp != null) {
-            item = temp.item;
-        }
-        temp = null;
+        Item item = temp.item;
         return item;
     }
 
@@ -101,11 +99,7 @@ public class Deque <Item>  implements Iterable<Item>  {
             temp = tail.next;
             tail.next = null;
         }
-        Item item = null;
-        if (temp != null) {
-            item = temp.item;
-        }
-        temp = null;
+        Item item = temp.item;
         return item;
     }
 
@@ -119,8 +113,8 @@ public class Deque <Item>  implements Iterable<Item>  {
     }
 
     private class Node {
-        Item item;
-        Node next;
+        private Item item;
+        private Node next;
 
         Node(Item item) {
             this.item = item;
@@ -160,7 +154,6 @@ public class Deque <Item>  implements Iterable<Item>  {
                 }
                 temp.next = current.next;
                 current = temp.next;
-                temp = null;
             }
         }
     }
